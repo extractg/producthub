@@ -37,3 +37,7 @@ searchInput.addEventListener("input", function () {
     });
     displayProducts(filteredProducts);
 });
+sortPriceBtn.addEventListener("click", function () {
+    products.sort((a, b) => a.price - b.price);
+    displayProducts(products);
+});
