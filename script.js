@@ -10,10 +10,19 @@ const productContainer = document.getElementById("productContainer");
 
 let products = [];
 async function getProducts (){
+    loading.style.display = "flex";
+    try {
     const response = await fetch("https://fakestoreapi.com/products");
     const data = await response.json();
     products = data;
     displayProducts(products);
+    }
+    catch(err){
+        loading.textContent = "Failed to load products.";
+    }
+    finally{
+        loading.style.display = "none";
+    }
 }
 getProducts();
 
