@@ -1,3 +1,5 @@
+import { displayProducts } from "./ui.js";
+import { getProducts } from "./api.js";
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const allProductsBtn = document.getElementById("allProductsBtn");
@@ -5,40 +7,27 @@ const electronicsBtn = document.getElementById("electronicsBtn");
 const jeweleryBtn = document.getElementById("jeweleryBtn");
 const sortPriceBtn = document.getElementById("sortPriceBtn");
 const loading = document.getElementById("loading");
-const productContainer = document.getElementById("productContainer");
 
 
 let products = [];
-async function getProducts (){
-    loading.style.display = "flex";
+async function init() {
     try {
-    const response = await fetch("https://fakestoreapi.com/products");
-    const data = await response.json();
-    products = data;
-    displayProducts(products);
+        loading.style.display = "flex";
+
+        products = await getProducts();
+
+        displayProducts(products);
     }
-    catch(err){
+    catch (err) {
         loading.textContent = "Failed to load products.";
     }
-    finally{
+    finally {
         loading.style.display = "none";
     }
 }
-getProducts();
 
-function displayProducts(products) {
-    productContainer.innerHTML = "";
+init();
 
-products.forEach(product => {
-    productContainer.innerHTML += `
-        <div class="card">
-            <h2>${product.title}</h2>
-            <p>${product.price}</p>
-            <img src="${product.image}" alt="">
-        </div>
-    `;
-        console.log(product)
-})}
 searchInput.addEventListener("input", function () {
     const searchTerm = searchInput.value.toLowerCase();
     const filteredProducts = products.filter(product => {
