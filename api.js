@@ -6,4 +6,4 @@ export async function getProducts() {
     }
 
     return await response.json();
-}
+}   

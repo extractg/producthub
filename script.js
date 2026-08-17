@@ -7,6 +7,8 @@ const electronicsBtn = document.getElementById("electronicsBtn");
 const jeweleryBtn = document.getElementById("jeweleryBtn");
 const sortPriceBtn = document.getElementById("sortPriceBtn");
 const loading = document.getElementById("loading");
+const sortNameBtn = document.getElementById("sortNameBtn");
+const cheapProductsBtn = document.getElementById("cheapProductsBtn");
 
 
 let products = [];
@@ -19,6 +21,7 @@ async function init() {
         displayProducts(products);
     }
     catch (err) {
+            
         loading.textContent = "Failed to load products.";
     }
     finally {
@@ -39,3 +42,15 @@ sortPriceBtn.addEventListener("click", function () {
     products.sort((a, b) => a.price - b.price);
     displayProducts(products);
 });
+sortNameBtn.addEventListener("click", function () {
+    products.sort((a, b) => a.title.localeCompare(b.title));
+    displayProducts(products);
+})
+cheapProductsBtn.addEventListener("click", function () {
+    const filterCheapProducts = products.filter(product => product.price < 50);
+    displayProducts(filterCheapProducts);
+})
+const productsInfo = products.map(product => ({title: product.title, price: product.price}));
+const sum = products.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.price;
+}, 0);
